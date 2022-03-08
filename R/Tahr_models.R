@@ -46,12 +46,10 @@ tt<- as.matrix(tt)
 mu<- as.numeric(tahr_data$MU) # Grab MU numeric levels 
 nmu<- max(mu)
 
-form<- as.formula(~ MU)
-
 lam_mat<- model.matrix( ~MU, data=tahr_data)  # Get design matrix
 nbeta<- ncol(lam_mat)
 
-AA<- tahr_data$Area_3d
+AA<- tahr_data$Area_3d  # plot area
 
 # Assemble data for Nimble 
 constants<- list(nsites=nsites, nyears=T, Area=AA, nb=nbeta) 
@@ -148,7 +146,7 @@ tmp
 ## Design-based predictions ----
 
 # Find total number of potential plots within PCL in each MU
-A<- 4  # set area of plots
+A<- 4  # set area of plots (km2)
 ncells<- calc_nplots(plots, MU, PCL, res = sqrt(A) * 1000)  # res in m
 
 # retrieve plot level abundance estimates
@@ -263,8 +261,7 @@ allN %>%
   geom_point(colour="blue", size=3, shape=21, fill="white")+
   ylab(expression(paste("Tahr k",m^-2,""))) +
   xlab("Sampling occasion")+
-  #scale_y_continuous(breaks=seq(0,80,20),lim=c(0, 80))+
-  scale_x_continuous(breaks=c(1,2,3),lim=c(1, 3))+
+  scale_x_continuous(breaks=c(1,2,3),lim=c(1, 3)) +
   geom_point(aes(x=Count_num, y=ytot), size=1.5) +
   facet_wrap(~Plot,  ncol=10, nrow=12, scales="free_y") +
   theme_bw()+
